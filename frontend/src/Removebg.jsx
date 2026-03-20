@@ -29,7 +29,7 @@ export default function RemoveBg() {
             setLoading(true);
 
             const res = await axios.post(
-                "https://backgroundremover-fe3c.onrender.com",
+                "https://backgroundremover-fe3c.onrender.com/remove-bg",
                 formData,
                 {
                     responseType: "blob",
