@@ -29,7 +29,7 @@ export default function RemoveBg() {
             setLoading(true);
 
             const res = await axios.post(
-                "http://localhost:5000/remove-bg",
+                "https://backgroundremover-fe3c.onrender.com",
                 formData,
                 {
                     responseType: "blob",
@@ -65,11 +65,11 @@ export default function RemoveBg() {
             canvas.width = width;
             canvas.height = height;
 
-            if(bgImage){
+            if (bgImage) {
                 const bgImg = new Image();
                 bgImg.src = bgImage;
 
-                bgImg.onload = () =>{
+                bgImg.onload = () => {
                     ctx.drawImage(bgImg, 0, 0, width, height);
 
                     ctx.drawImage(img, 0, 0, width, height);
