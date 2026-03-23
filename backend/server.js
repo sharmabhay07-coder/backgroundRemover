@@ -25,17 +25,17 @@ app.post("/remove-bg", upload.single("image"), async (req, res) => {
     formData.append("size", "auto");
 
     const response = await axios.post(
-      "https://api.remove.bg/v1.0/removebg",
+      "https://api.slazzer.com/v2.0/remove_image_background",
       formData,
       {
         headers: {
           ...formData.getHeaders(),
-          "X-Api-Key": process.env.REMOVE_BG_API_KEY,
+          "x-api-key": process.env.REMOVE_BG_API_KEY,
         },
         responseType: "arraybuffer",
       }
     );
-    console.log("API KEY:", process.env.API_KEY);
+    // console.log("API KEY:", process.env.REMOVE_BG_API_KEY);
 
     const outputPath = `edited-${Date.now()}.png`;
     fs.writeFileSync(outputPath, response.data);
