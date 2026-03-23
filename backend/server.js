@@ -24,7 +24,7 @@ app.post("/remove-bg", upload.single("image"), async (req, res) => {
     formData.append("size", "auto");
 
     const response = await axios.post(
-      "https://dash.poof.bg/organizations/9cb3aa83-1e8e-4045-9591-cc61b5c7c028/api-key",
+      "https://api.poof.bg/api/v2/remove",
       formData,
       {
         headers: {
