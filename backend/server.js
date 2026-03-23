@@ -21,8 +21,8 @@ app.post("/remove-bg", upload.single("image"), async (req, res) => {
     const imagePath = req.file.path;
 
     const formData = new FormData();
-    formData.append("image_file", fs.createReadStream(imagePath));
-    formData.append("size", "auto");
+    formData.append("source_image_file", fs.createReadStream(imagePath));
+    //  formData.append("size", "auto");
 
     const response = await axios.post(
       "https://api.slazzer.com/v2.0/remove_image_background",
@@ -44,8 +44,9 @@ app.post("/remove-bg", upload.single("image"), async (req, res) => {
     res.sendFile(__dirname + "/" + outputPath);
 
   } catch (error) {
-    console.log(error.response?.data || error.message);
-    res.status(500).send("Error removing background");
+    console.log(
+      error.response?.data?.toString() || error.message
+    ); res.status(500).send("Error removing background");
   }
 });
 
