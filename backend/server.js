@@ -35,8 +35,8 @@ app.post("/remove-bg", upload.single("image"), async (req, res) => {
         responseType: "arraybuffer",
       }
     );
+    console.log("API KEY:", process.env.API_KEY);
 
-  
     const outputPath = `edited-${Date.now()}.png`;
     fs.writeFileSync(outputPath, response.data);
 
