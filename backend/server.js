@@ -15,7 +15,6 @@ app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
-
 app.post("/remove-bg", upload.single("image"), async (req, res) => {
   try {
     const imagePath = req.file.path;
@@ -25,17 +24,16 @@ app.post("/remove-bg", upload.single("image"), async (req, res) => {
     formData.append("size", "auto");
 
     const response = await axios.post(
-      "https://api.slazzer.com/v2.0/remove_image_background",
+      "https://dash.poof.bg/organizations/9cb3aa83-1e8e-4045-9591-cc61b5c7c028/api-key",
       formData,
       {
         headers: {
           ...formData.getHeaders(),
-          "x-api-key": process.env.REMOVE_BG_API_KEY,
+          "X-Api-Key": process.env.REMOVE_BG_API_KEY,
         },
         responseType: "arraybuffer",
       }
     );
-    // console.log("API KEY:", process.env.REMOVE_BG_API_KEY);
 
     const outputPath = `edited-${Date.now()}.png`;
     fs.writeFileSync(outputPath, response.data);
@@ -44,17 +42,9 @@ app.post("/remove-bg", upload.single("image"), async (req, res) => {
     res.sendFile(__dirname + "/" + outputPath);
 
   } catch (error) {
-    if (error.response) {
-      console.log("STATUS:", error.response.status);
-      console.log("DATA:", error.response.data.toString());
-    } else {
-      console.log("ERROR:", error.message);
-    }
-
     res.status(500).send("Error removing background");
   }
 });
-
 
 const PORT = process.env.PORT || 5000;
 
