@@ -24,7 +24,7 @@ app.post("/remove-bg", upload.single("image"), async (req, res) => {
     formData.append("size", "auto");
 
     const response = await axios.post(
-      "https://api.poof.bg/api/v2/remove",
+      "https://api.remove.bg/v1.0/removebg",
       formData,
       {
         headers: {
@@ -42,6 +42,7 @@ app.post("/remove-bg", upload.single("image"), async (req, res) => {
     res.sendFile(__dirname + "/" + outputPath);
 
   } catch (error) {
+    console.log(error.response?.data || error.message);
     res.status(500).send("Error removing background");
   }
 });

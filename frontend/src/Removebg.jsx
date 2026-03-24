@@ -29,7 +29,7 @@ export default function RemoveBg() {
             setLoading(true);
 
             const res = await axios.post(
-                "https://backgroundremover-fe3c.onrender.com/remove-bg",
+                "http://localhost:5000/remove-bg",
                 formData,
                 {
                     responseType: "blob",
@@ -49,56 +49,44 @@ export default function RemoveBg() {
     const handleDownloadbg = async () => {
         if (!result) return;
 
-        const response = await fetch(result);
-        const blob = await response.blob();
-
         const img = new Image();
-        img.src = URL.createObjectURL(blob);
-
         img.onload = () => {
             const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d")
+            const ctx = canvas.getContext("2d");
 
-            const height = img.height;
-            const width = img.width;
-
-            canvas.width = width;
-            canvas.height = height;
+            canvas.width = img.width;
+            canvas.height = img.height;
 
             if (bgImage) {
                 const bgImg = new Image();
-                bgImg.src = bgImage;
-
                 bgImg.onload = () => {
-                    ctx.drawImage(bgImg, 0, 0, width, height);
-
-                    ctx.drawImage(img, 0, 0, width, height);
+                    ctx.drawImage(bgImg, 0, 0, img.width, img.height);
+                    ctx.drawImage(img, 0, 0, img.width, img.height);
 
                     const finalImage = canvas.toDataURL("image/png");
-
                     const link = document.createElement("a");
                     link.href = finalImage;
                     link.download = "edited-image.png";
                     link.click();
                 };
+                bgImg.src = bgImage;
                 return;
             }
 
             if (bgColor) {
                 ctx.fillStyle = bgColor;
-                ctx.fillRect(0, 0, width, height);
+                ctx.fillRect(0, 0, img.width, img.height);
             }
 
-            ctx.drawImage(img, 0, 0, width, height);
+            ctx.drawImage(img, 0, 0, img.width, img.height);
 
             const finalImage = canvas.toDataURL("image/png");
-
             const link = document.createElement("a");
             link.href = finalImage;
             link.download = "edited-image.png";
             link.click();
-
         };
+        img.src = result;
     };
 
     return (
